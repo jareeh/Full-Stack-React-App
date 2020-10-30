@@ -11,6 +11,10 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
+//allow all cors
+const cors = require('cors')
+app.use(cors());
+
 //require the routes file
 const routes = require('./routes');
 
