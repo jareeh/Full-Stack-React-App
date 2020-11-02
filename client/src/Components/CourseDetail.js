@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 //import Data from '../Data'
 import axios from 'axios';
-//import { useParams } from 'react-router-dom';
+
 
 function CourseDetail (props) {
 
-    const pathname = props.location.pathname
-    const updateURL = `http://localhost:3000${pathname}update`
-    const deleteURL = `http://localhost:3000${pathname}delete`
-
-    //const { context } = props;
-    //const { authUser, actions } = context;
+    const { id } = props.match.params
+    const pathname = `/courses/${id}`
 
     const [ course, setCourse ] = useState([])
     const [ owner, setOwner ] = useState([])
@@ -34,8 +31,12 @@ function CourseDetail (props) {
         <div>
             <div className="actions--bar">
                 <div className="bounds">
-                    <div className="grid-100"><span><a className="button" href={updateURL}>Update Course</a><a className="button" href={deleteURL}>Delete Course</a></span><a
-                        className="button button-secondary" href="/">Return to List</a></div>
+                    <div className="grid-100">
+                        <span>
+                            <Link className="button" to={`${pathname}/update`}>Update Course</Link>
+                            <Link className="button" to={`${pathname}/delete`}>Delete Course</Link>
+                        </span>
+                    <Link className="button button-secondary" to="/">Return to List</Link></div>
                 </div>
             </div>
             <div className="bounds course--detail">

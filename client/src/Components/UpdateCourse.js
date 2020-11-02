@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 function UpdateCourse (props) {
@@ -59,7 +60,10 @@ function UpdateCourse (props) {
                             </ul>
                         </div>
                     </div>
-                    <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick="event.preventDefault(); location.href='course-detail.html';">Cancel</button></div>
+                    <div className="grid-100 pad-bottom">
+                        <button className="button" type="submit">Update Course</button>
+                        <Link className="button button-secondary" to={pathname}>Cancel</Link>
+                    </div>
                 </form>
             </div>
         </div>

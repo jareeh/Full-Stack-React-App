@@ -33,7 +33,7 @@ class UserSignIn extends Component {
                   type="text"
                   value={username} 
                   onChange={this.change} 
-                  placeholder="User Name" />
+                  placeholder="Email Address" />
                 <input 
                   id="password" 
                   name="password"

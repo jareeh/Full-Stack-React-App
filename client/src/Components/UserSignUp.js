@@ -35,7 +35,21 @@ class UserSignUp extends Component {
                   type="text"
                   value={name} 
                   onChange={this.change} 
-                  placeholder="Name" />
+                  placeholder="First Name" />
+                <input 
+                  id="name" 
+                  name="name" 
+                  type="text"
+                  value={name} 
+                  onChange={this.change} 
+                  placeholder="Last Name" />
+                <input 
+                  id="name" 
+                  name="name" 
+                  type="text"
+                  value={name} 
+                  onChange={this.change} 
+                  placeholder="Email Address" />
                 <input 
                   id="username" 
                   name="username" 
@@ -43,6 +57,13 @@ class UserSignUp extends Component {
                   value={username} 
                   onChange={this.change} 
                   placeholder="User Name" />
+                <input 
+                  id="password" 
+                  name="password"
+                  type="password"
+                  value={password} 
+                  onChange={this.change} 
+                  placeholder="Password" />
                 <input 
                   id="password" 
                   name="password"
