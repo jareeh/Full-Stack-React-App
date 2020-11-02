@@ -6,8 +6,8 @@ import axios from 'axios';
 function CourseDetail (props) {
 
     const pathname = props.location.pathname
-    const updateURL = `http://localhost:3000/${pathname}/update`
-    const deleteURL = `http://localhost:3000/${pathname}/delete`
+    const updateURL = `http://localhost:3000${pathname}update`
+    const deleteURL = `http://localhost:3000${pathname}delete`
 
     //const { context } = props;
     //const { authUser, actions } = context;

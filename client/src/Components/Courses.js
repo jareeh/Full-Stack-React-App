@@ -11,8 +11,7 @@ class Courses extends Component {
         axios.get('http://localhost:5000/api/courses')
             .then(response => {
                 this.setState({courses: response.data})
-                console.log(response.data)
-                console.log(this.state.courses)
+                //console.log(response.data)
             })
             .catch(err => {
                 console.log('Error fetching data', err)
@@ -25,7 +24,6 @@ class Courses extends Component {
 
     render(){
         const courses = this.state.courses;
-        console.log(courses[1])
         let courseList
         
         if(courses.length) {
