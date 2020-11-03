@@ -4,16 +4,18 @@ import Form from './Form';
 
 class UserSignUp extends Component {
   state = {
-    name: '',
-    username: '',
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
     password: '',
     errors: [],
   }
 
   render() {
     const {
-      name,
-      username,
+      firstName,
+      lastName,
+      emailAddress,
       password,
       errors,
     } = this.state;
@@ -30,40 +32,26 @@ class UserSignUp extends Component {
             elements={() => (
               <React.Fragment>
                 <input 
-                  id="name" 
-                  name="name" 
+                  id="firstName" 
+                  name="firstName" 
                   type="text"
-                  value={name} 
+                  value={firstName} 
                   onChange={this.change} 
                   placeholder="First Name" />
                 <input 
-                  id="name" 
-                  name="name" 
+                  id="lastName" 
+                  name="lastName" 
                   type="text"
-                  value={name} 
+                  value={lastName} 
                   onChange={this.change} 
                   placeholder="Last Name" />
                 <input 
-                  id="name" 
-                  name="name" 
+                  id="emailAddress" 
+                  name="emailAddress" 
                   type="text"
-                  value={name} 
+                  value={emailAddress} 
                   onChange={this.change} 
                   placeholder="Email Address" />
-                <input 
-                  id="username" 
-                  name="username" 
-                  type="text"
-                  value={username} 
-                  onChange={this.change} 
-                  placeholder="User Name" />
-                <input 
-                  id="password" 
-                  name="password"
-                  type="password"
-                  value={password} 
-                  onChange={this.change} 
-                  placeholder="Password" />
                 <input 
                   id="password" 
                   name="password"
@@ -95,14 +83,16 @@ class UserSignUp extends Component {
   submit = () => {
     const { context } = this.props;
     const {
-      name,
-      username,
+      firstName,
+      lastName,
+      emailAddress,
       password,
     } = this.state;
 
     const user = {
-      name,
-      username,
+      firstName,
+      lastName,
+      emailAddress,
       password,
     };
 
@@ -111,10 +101,10 @@ class UserSignUp extends Component {
         if(errors.length){
           this.setState({ errors })
         } else {
-          console.log(`${username} is successfully signed up and authenticated!`)
-          context.actions.signIn(username, password)
+          console.log(`${emailAddress} is successfully signed up and authenticated!`)
+          context.actions.signIn(emailAddress, password)
             .then(() => {
-              this.props.history.push('/authenticated');
+              this.props.history.push('/');
             });
         }
       })

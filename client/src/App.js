@@ -14,16 +14,18 @@ import NotFound from './Components/NotFound';
 
 import withContext from './Context';
 
+const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UpdateCourseWithContext = withContext(UpdateCourse);
+const UserSignOutWithContext = withContext(UserSignOut);
 
 
 const App = () => {
   return (
     <Router>
-      <Header />
+      <HeaderWithContext />
       <Switch>
         <Route exact path="/" component={Courses} />
         <Route path="/courses/create" component={CreateCourse} />
@@ -31,7 +33,7 @@ const App = () => {
         <Route exact path="/courses/:id" component={CourseDetailWithContext} /> 
         <Route path="/signup" component={UserSignUpWithContext}/>
         <Route path="/signin" component={UserSignInWithContext} />
-        <Route path="/signout" component={UserSignOut} />
+        <Route path="/signout" component={UserSignOutWithContext} />
         <Route component={NotFound} />
       </Switch>
     </Router>

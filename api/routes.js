@@ -23,22 +23,18 @@ router.post('/users', asyncHandler(async (req, res) => {
     try{
         const user = req.body;
         const errors = [];
-    
-        if(!user.name){
-            errors.push('Please provide a name');
-        }
 
-        // if(!user.firstName){
-        //     errors.push('Please provide a first name');
-        // }
+        if(!user.firstName){
+            errors.push('Please provide a first name');
+        }
     
-        // if(!user.lastName){
-        //     errors.push('Please provide a last name');
-        // }
+        if(!user.lastName){
+            errors.push('Please provide a last name');
+        }
     
-        // if(!user.emailAddress){
-        //     errors.push('Please provide an email address');
-        // }
+        if(!user.emailAddress){
+            errors.push('Please provide an email address');
+        }
     
         if(!user.password){
             errors.push('Please provide a password');
