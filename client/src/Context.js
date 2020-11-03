@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Data from './Data';
 import Cookies from 'js-cookie';
+import config from './config'
 
 const Context = React.createContext(); 
 
@@ -24,7 +25,8 @@ export class Provider extends Component {
       data: this.data,
       actions: {
         signIn: this.signIn,
-        signOut: this.signOut
+        signOut: this.signOut,
+        api: this.api
       }
     };
 
@@ -42,9 +44,10 @@ export class Provider extends Component {
       this.setState(() => {
         return {
           authenticatedUser: user,
+          authenticatedPassword: password
         } 
       })
-      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1});
+      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
     }
     return user;
   }
@@ -56,6 +59,29 @@ export class Provider extends Component {
       };
     });
     Cookies.remove('authenticatedUser');
+  }
+
+  api = (path, method = 'GET', body = null, requiresAuth = false, credentials = null) => {
+    const url = config.apiBaseUrl + path;
+  
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    };
+
+    if (body !== null) {
+      options.body = JSON.stringify(body);
+    }
+
+    if(requiresAuth){
+      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+
+      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
+    }
+
+    return fetch(url, options);
   }
 }
 
