@@ -16,7 +16,7 @@ function CourseDetail (props) {
             .then(data => {
                 console.log(data.data)
                 setCourse(data.data)
-                setOwner(data.data.userId)
+                setOwner(data.data.user)
             })
             .catch(err => {
                 console.log('Error fetching data', err)
@@ -43,7 +43,7 @@ function CourseDetail (props) {
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
                         <h3 className="course--title">{course.title}</h3>
-                        <p>By {owner}</p>
+                        <p>By {`${owner.firstName} ${owner.lastName}`}</p>
                     </div>
                     <div className="course--description">
                         <p>{course.description}</p>

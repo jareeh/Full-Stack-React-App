@@ -6,25 +6,33 @@ import axios from 'axios';
 function UpdateCourse (props) {
 
     const { context } = props;
-    const { authenticatedUser, authenticatedPassword, actions } = context;
+    const { authenticatedUser } = context;
     
     
     const { id } = props.match.params
     const pathname = `/courses/${id}`
 
     const [ course, setCourse ] = useState([])
-    const [ owner, setOwner ] = useState([])
+    //const [ owner, setOwner ] = useState([])
     const [ title, setTitle ] = useState('')
     const [ description, setDescription ] = useState('')
     const [ estimatedTime, setEstimatedTime ] = useState('')
     const [ materialsNeeded, setMaterialsNeeded ] = useState('')
+    const [ errors, setErrors ] = useState([])
+
+    useEffect(() => {
+        if(!authenticatedUser){
+            props.history.push('/signin')
+        }/* else if (authenticatedUser.emailAddress !== owner.emailAddress) {
+            props.history.push('/forbidden')
+        }*/
+    })
 
     useEffect( () => {
         axios.get(`http://localhost:5000/api${pathname}`)
             .then(data => {
                 console.log(data.data)
                 setCourse(data.data)
-                setOwner(data.data.userId)
             })
             .catch(err => {
                 console.log('Error fetching data', err)
@@ -40,11 +48,11 @@ function UpdateCourse (props) {
     }
 
     const updateEstimatedTime = (e) => {
-        setEstimatedTime(e.value.target);
+        setEstimatedTime(e.target.value);
     }
 
     const updateMaterialsNeeded = (e) => {
-        setMaterialsNeeded(e.value.target);
+        setMaterialsNeeded(e.target.value);
     }
 
     const submit = (e) => {
@@ -58,21 +66,47 @@ function UpdateCourse (props) {
             materialsNeeded,
             userId: authenticatedUser.id
         };
+        
+        let username = context.authenticatedUser.emailAddress
+        let password = context.authenticatedUser.password
 
-        actions.api(pathname, 'PUT', updatedCourse, true, { username: authenticatedUser.emailAddress, password: authenticatedPassword})
-            .then(() => {
-                props.history.push(pathname)
+        context.data.updateCourse(updatedCourse, username, password)
+            .then( errors => {
+                if(errors.length) {
+                    setErrors({ errors })
+                } else {
+                    console.log(`${updatedCourse.title} is successfully updated`)
+                    props.history.push(`/courses/${id}`)
+                }
             })
-            .catch((err) => {
+            .catch( err => {
                 console.log(err)
             })
+    }
 
+    function ErrorsDisplay({ errors }) {
+        let errorsDisplay = null;
+    
+        if(errors.length){
+            errorsDisplay = (
+                <div>
+                    <h1 className="validation--errors--label">Validation Errors</h1>
+                    <div className="validation-errors">
+                        <ul>
+                            {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                    </div>
+                </div>
+            )
+        }
+        return errorsDisplay;
     }
 
     return (
         <div className="bounds course--detail">
             <h1>Update Course</h1>
             <div>
+                <ErrorsDisplay errors={errors}/>
                 <form onSubmit={submit}>
                     <div className="grid-66">
                         <div className="course--header">
@@ -81,7 +115,7 @@ function UpdateCourse (props) {
                                 <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
                                 defaultValue={course.title} onChange={updateTitle}/>
                             </div>
-                            <p>By {owner}</p>
+                            <p>By {`${authenticatedUser.firstName} ${authenticatedUser.lastName}`}</p>
                         </div>
                         <div className="course--description">
                             <div>

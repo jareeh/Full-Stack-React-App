@@ -9,7 +9,7 @@ import UpdateCourse from './Components/UpdateCourse';
 import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
 import UserSignUp from './Components/UserSignUp';
-//import Forbidden from './Components/Forbidden';
+import Forbidden from './Components/Forbidden';
 import NotFound from './Components/NotFound';
 
 import withContext from './Context';
@@ -35,6 +35,7 @@ const App = () => {
         <Route path="/signup" component={UserSignUpWithContext}/>
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
+        <Route path="/forbidden" component={Forbidden} />
         <Route component={NotFound} />
       </Switch>
     </Router>

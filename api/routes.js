@@ -116,7 +116,6 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
 router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     const updatedCourse = req.body;
     const errors = [];
-    let isOwner;
     
     if(!updatedCourse.title){
         errors.push('Please provide a course title');
