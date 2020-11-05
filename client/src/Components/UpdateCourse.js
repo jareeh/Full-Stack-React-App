@@ -5,40 +5,47 @@ import axios from 'axios';
 
 function UpdateCourse (props) {
 
+    //DEPENDENCY VARIABLES
     const { context } = props;
     const { authenticatedUser } = context;
-    
-    
     const { id } = props.match.params
     const pathname = `/courses/${id}`
 
-    const [ course, setCourse ] = useState([])
-    //const [ owner, setOwner ] = useState([])
+    //STATE HOOKS
+    const [ owner, setOwner ] = useState([])
     const [ title, setTitle ] = useState('')
     const [ description, setDescription ] = useState('')
     const [ estimatedTime, setEstimatedTime ] = useState('')
     const [ materialsNeeded, setMaterialsNeeded ] = useState('')
     const [ errors, setErrors ] = useState([])
 
-    useEffect(() => {
-        if(!authenticatedUser){
-            props.history.push('/signin')
-        }/* else if (authenticatedUser.emailAddress !== owner.emailAddress) {
-            props.history.push('/forbidden')
-        }*/
-    })
-
+    //DATE FETCHING
     useEffect( () => {
         axios.get(`http://localhost:5000/api${pathname}`)
             .then(data => {
                 console.log(data.data)
-                setCourse(data.data)
+                setTitle(data.data.title)
+                setDescription(data.data.description)
+                setEstimatedTime(data.data.estimatedTime)
+                setMaterialsNeeded(data.data.materialsNeeded)
+                setOwner(data.data.user)
             })
             .catch(err => {
                 console.log('Error fetching data', err)
+                props.history.push('/error')
             })
-    }, [pathname])
+    }, [pathname, props.history])
 
+    //in case of authenticatedUser that is not owner goes directly to
+    //URL, redirect to forbidden component
+    useEffect( () => {
+        if((authenticatedUser.id !== owner.id)){
+            props.history.push('/forbidden')
+        }
+    })
+
+
+    //onChange FUNCTIONS
     const updateTitle = (e) => {
         setTitle(e.target.value);
     }
@@ -55,6 +62,8 @@ function UpdateCourse (props) {
         setMaterialsNeeded(e.target.value);
     }
 
+
+    //SUBMIT HANDLER
     const submit = (e) => {
         e.preventDefault();
 
@@ -73,7 +82,7 @@ function UpdateCourse (props) {
         context.data.updateCourse(updatedCourse, username, password)
             .then( errors => {
                 if(errors.length) {
-                    setErrors({ errors })
+                    setErrors(errors)
                 } else {
                     console.log(`${updatedCourse.title} is successfully updated`)
                     props.history.push(`/courses/${id}`)
@@ -81,9 +90,11 @@ function UpdateCourse (props) {
             })
             .catch( err => {
                 console.log(err)
+                props.history.push('/error')
             })
     }
 
+    //VALIDATION ERRORS COMPONENT
     function ErrorsDisplay({ errors }) {
         let errorsDisplay = null;
     
@@ -102,6 +113,7 @@ function UpdateCourse (props) {
         return errorsDisplay;
     }
 
+    //RETURNED COMPONENT
     return (
         <div className="bounds course--detail">
             <h1>Update Course</h1>
@@ -113,13 +125,13 @@ function UpdateCourse (props) {
                             <h4 className="course--label">Course</h4>
                             <div>
                                 <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
-                                defaultValue={course.title} onChange={updateTitle}/>
+                                value={title} onChange={updateTitle}/>
                             </div>
                             <p>By {`${authenticatedUser.firstName} ${authenticatedUser.lastName}`}</p>
                         </div>
                         <div className="course--description">
                             <div>
-                                <textarea id="description" name="description" className="" placeholder="Course description..." defaultValue={course.description} onChange={updateDescription} />
+                                <textarea id="description" name="description" className="" placeholder="Course description..." value={description} onChange={(value) => updateDescription(value)} />
                             </div>
                         </div>
                     </div>
@@ -130,13 +142,13 @@ function UpdateCourse (props) {
                                     <h4>Estimated Time</h4>
                                     <div>
                                         <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input"
-                                        placeholder="Hours" defaultValue={course.estimatedTime} onChange={updateEstimatedTime} />
+                                        placeholder="Hours" value={estimatedTime} onChange={updateEstimatedTime} />
                                     </div>
                                 </li>
                                 <li className="course--stats--list--item">
                                     <h4>Materials Needed</h4>
                                     <div>
-                                        <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." defaultValue={course.materialsNeeded} onChange={updateMaterialsNeeded} />
+                                        <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." value={materialsNeeded} onChange={updateMaterialsNeeded} />
                                     </div>
                                 </li>
                             </ul>

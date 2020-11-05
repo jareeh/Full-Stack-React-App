@@ -11,7 +11,8 @@ import UserSignOut from './Components/UserSignOut';
 import UserSignUp from './Components/UserSignUp';
 import Forbidden from './Components/Forbidden';
 import NotFound from './Components/NotFound';
-
+import PrivateRoute from './Components/PrivateRoute';
+import UnhandledError from './Components/UnhandledError';
 import withContext from './Context';
 
 const HeaderWithContext = withContext(Header);
@@ -29,13 +30,14 @@ const App = () => {
       <HeaderWithContext />
       <Switch>
         <Route exact path="/" component={Courses} />
-        <Route path="/courses/create" component={CreateCourseWithContext} />
-        <Route path="/courses/:id/update" component={UpdateCourseWithContext} />
+        <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
+        <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
         <Route exact path="/courses/:id" component={CourseDetailWithContext} /> 
         <Route path="/signup" component={UserSignUpWithContext}/>
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
         <Route path="/forbidden" component={Forbidden} />
+        <Route path="/error" component={UnhandledError} />
         <Route component={NotFound} />
       </Switch>
     </Router>

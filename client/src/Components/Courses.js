@@ -8,6 +8,7 @@ class Courses extends Component {
         courses: []
     }
     
+    //DATA FETCHING
     getCourses = () => {
         axios.get('http://localhost:5000/api/courses')
             .then(response => {
@@ -19,6 +20,7 @@ class Courses extends Component {
             })
     }
     
+    //UPON MOUNTING, FETCH COURSES
     componentDidMount(){
         this.getCourses();
     }

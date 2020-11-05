@@ -3,22 +3,18 @@ import { Link } from 'react-router-dom'
 
 const CreateCourse = (props) => {
 
+    //DEPENDENCY VARIABLES
     const { context } = props;
     const { authenticatedUser } = context;
     
-    
-    //const { id } = props.match.params
-    //const pathname = `/courses/${id}`
-
-    //const [ course, setCourse ] = useState([])
-    //const [ owner, setOwner ] = useState([])
+    //STATE HOOKS
     const [ title, setTitle ] = useState('')
     const [ description, setDescription ] = useState('')
     const [ estimatedTime, setEstimatedTime ] = useState('')
     const [ materialsNeeded, setMaterialsNeeded ] = useState('')
     const [ errors, setErrors ] = useState([])
 
-
+    //onChange FUNCTIONS
     const updateTitle = (e) => {
         setTitle(e.target.value);
     }
@@ -35,6 +31,7 @@ const CreateCourse = (props) => {
         setMaterialsNeeded(e.target.value);
     }
 
+    //SUBMIT HANDLER
     const submit = (e) => {
         e.preventDefault();
 
@@ -52,7 +49,7 @@ const CreateCourse = (props) => {
         context.data.createCourse(newCourse, username, password)
             .then( errors => {
                 if(errors.length) {
-                    setErrors({ errors })
+                    setErrors(errors)
                 } else {
                     console.log(`${newCourse.title} is successfully posted`)
                     props.history.push('/')
@@ -63,6 +60,7 @@ const CreateCourse = (props) => {
             })
     }
 
+    //VALIDATION ERROR COMPONENT
     function ErrorsDisplay({ errors }) {
         let errorsDisplay = null;
     
@@ -81,12 +79,14 @@ const CreateCourse = (props) => {
         return errorsDisplay;
     }
 
+    //maybe redundant because of PrivateRoute?
     useEffect(() => {
         if(!authenticatedUser){
             props.history.push('/signin')
         }
     })
 
+    //RETURNED COMPONENT
     return (
         <div className="bounds course--detail">
             <h1>Create Course</h1>
