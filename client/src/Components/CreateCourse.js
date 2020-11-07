@@ -57,6 +57,7 @@ const CreateCourse = (props) => {
             })
             .catch( err => {
                 console.log(err)
+                props.history.push('/error')
             })
     }
 

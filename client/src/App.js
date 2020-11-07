@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 
 import Header from './Components/Header';
@@ -30,6 +30,9 @@ const App = () => {
       <HeaderWithContext />
       <Switch>
         <Route exact path="/" component={Courses} />
+        <Route exact path="/courses">
+          <Redirect to="/" />
+        </Route>
         <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
         <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
         <Route exact path="/courses/:id" component={CourseDetailWithContext} /> 

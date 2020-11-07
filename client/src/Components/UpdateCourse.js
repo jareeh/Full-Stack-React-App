@@ -12,7 +12,6 @@ function UpdateCourse (props) {
     const pathname = `/courses/${id}`
 
     //STATE HOOKS
-    const [ owner, setOwner ] = useState([])
     const [ title, setTitle ] = useState('')
     const [ description, setDescription ] = useState('')
     const [ estimatedTime, setEstimatedTime ] = useState('')
@@ -23,26 +22,25 @@ function UpdateCourse (props) {
     useEffect( () => {
         axios.get(`http://localhost:5000/api${pathname}`)
             .then(data => {
-                console.log(data.data)
-                setTitle(data.data.title)
-                setDescription(data.data.description)
-                setEstimatedTime(data.data.estimatedTime)
-                setMaterialsNeeded(data.data.materialsNeeded)
-                setOwner(data.data.user)
+                if(data.data){
+                    console.log(data.data)
+                    setTitle(data.data.title)
+                    setDescription(data.data.description)
+                    setEstimatedTime(data.data.estimatedTime)
+                    setMaterialsNeeded(data.data.materialsNeeded)
+
+                    if(data.data.user.id !== authenticatedUser.id){
+                        props.history.replace('/forbidden')
+                    }
+                } else {
+                    props.history.push('/notfound')
+                }
             })
             .catch(err => {
                 console.log('Error fetching data', err)
                 props.history.push('/error')
             })
-    }, [pathname, props.history])
-
-    //in case of authenticatedUser that is not owner goes directly to
-    //URL, redirect to forbidden component
-    useEffect( () => {
-        if((authenticatedUser.id !== owner.id)){
-            props.history.push('/forbidden')
-        }
-    })
+    }, [pathname, props.history, authenticatedUser.id])
 
 
     //onChange FUNCTIONS
@@ -131,7 +129,7 @@ function UpdateCourse (props) {
                         </div>
                         <div className="course--description">
                             <div>
-                                <textarea id="description" name="description" className="" placeholder="Course description..." value={description} onChange={(value) => updateDescription(value)} />
+                                <textarea id="description" name="description" className="" placeholder="Course description..." value={description} onChange={updateDescription} />
                             </div>
                         </div>
                     </div>
