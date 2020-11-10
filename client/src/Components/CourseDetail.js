@@ -9,7 +9,7 @@ function CourseDetail (props) {
     const { id } = props.match.params
     const pathname = `/courses/${id}`
     const { context } = props
-    const authenticatedUser = context.authenticatedUser
+    const { authenticatedUser } = context
 
     //STATE HOOKS
     const [ course, setCourse ] = useState([])
@@ -37,7 +37,7 @@ function CourseDetail (props) {
     //DELETE COURSE FUNCTION
     const deleteCourse = () => {
         let username = context.authenticatedUser.emailAddress
-        let password = context.authenticatedUser.password
+        let { password } = context.authenticatedUser
 
         context.data.deleteCourse(course, username, password)
             .then( () => {

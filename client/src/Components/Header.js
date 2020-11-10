@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ context }) => {
 
-    const authUser = context.authenticatedUser;
+    const { authenticatedUser } = context;
 
     return(
         <div className="header">
             <div className="bounds">
                 <h1 className="header--logo">Courses</h1>
                 <nav>
-                    {authUser ?
+                    {authenticatedUser ?
                         <React.Fragment>
-                        <span>Welcome, {authUser.firstName} {authUser.lastName}!</span>
+                        <span>Welcome, {authenticatedUser.firstName} {authenticatedUser.lastName}!</span>
                         <Link to="/signout">Sign Out</Link>
                         </React.Fragment>
                         :

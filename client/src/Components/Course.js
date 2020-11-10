@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Course = (props) => {
     
-    let title = props.data.title
+    let { title } = props.data
     let url = `courses/${props.data.id}`
 
     return (
