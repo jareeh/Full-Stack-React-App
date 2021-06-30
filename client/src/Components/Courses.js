@@ -12,7 +12,7 @@ const Courses = () => {
     const getCourses = () => {
         axios.get('http://localhost:5000/api/courses')
             .then(response => {
-                setCourses({courses: response.data})
+                setCourses(response.data)
                 //console.log(response.data)
             })
             .catch(err => {
@@ -23,7 +23,7 @@ const Courses = () => {
     //UPON MOUNTING, FETCH COURSES
     useEffect( () => {
         getCourses();
-    })
+    }, [])
 
     //MAP OVER COURSES TO MAKE COURSE COMPONENTS
     let courseList
